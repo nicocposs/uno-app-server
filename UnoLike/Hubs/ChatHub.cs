@@ -12,6 +12,7 @@ namespace UnoLike.Hubs
         public override Task OnConnectedAsync()
         {
             nbrOfPlayers++;
+            Console.WriteLine("Joueur : " + nbrOfPlayers);
             SendConnectedState();
             if(nbrOfPlayers == 4)
             {
@@ -23,6 +24,7 @@ namespace UnoLike.Hubs
         public override Task OnDisconnectedAsync(Exception exception)
         {
             nbrOfPlayers--;
+            Console.WriteLine("Joueur : " + nbrOfPlayers);
             return base.OnDisconnectedAsync(exception);
         }
 
@@ -39,6 +41,7 @@ namespace UnoLike.Hubs
 
         public Task SendName(string name)              
         {
+            Console.WriteLine(Context.ConnectionId);
             return Clients.All.SendAsync("PlayerName", name);
         }
     }
