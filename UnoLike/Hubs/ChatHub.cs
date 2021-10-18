@@ -55,8 +55,13 @@ namespace UnoLike.Hubs
 
         public Task PassTurn()
         {
+            foreach(Player p in players)
+            {
+                Console.WriteLine(p.ToString() + ", Actuellement : " + Context.ConnectionId);
+            }
             Player currentPlayer = players.Where(pl => pl.connectionId == Context.ConnectionId).FirstOrDefault();
             int index = players.IndexOf(currentPlayer);
+            Console.WriteLine("Index avant incrément : " + index);
             string nextName = "";
             if(index == 3)
             {
@@ -64,7 +69,9 @@ namespace UnoLike.Hubs
             }
             else
             {
-                nextName = players[index+1].name;
+                index++;
+                Console.WriteLine("Index après incrément : " + index);
+                nextName = players[index].name;
             }
             return Clients.All.SendAsync("PlayerNameTurn", nextName);
         }

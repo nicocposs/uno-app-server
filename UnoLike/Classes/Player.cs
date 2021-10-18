@@ -17,5 +17,9 @@ namespace UnoLike.Classes
             this.name = name;
         }
 
+        public override string ToString()
+        {
+            return "Joueur : " + this.name + " - " + this.connectionId;
+        }
     }
 }
