@@ -10,6 +10,7 @@ namespace UnoLike.Hubs
     public class ChatHub : Hub                                           
     {
         public static int nbrOfPlayers;
+        public static Deck deck;
 
         public static List<Player> players = new List<Player>(); 
         public override Task OnConnectedAsync()
@@ -51,6 +52,24 @@ namespace UnoLike.Hubs
             Player newPlayer = new Player(Context.ConnectionId, name);
             players.Add(newPlayer);
             return Clients.All.SendAsync("PlayerName", name);
+        }
+
+        public void CreateGame()
+        {
+            CreateDeck();
+            int[] vals = { 1, 2, 3, 4, 5, 6, 7 };
+            ChooseBlue(vals);
+        }
+
+        public Task ChooseBlue(int[] values)
+        {
+            List<int> newList = new List<int>(values);
+            return Clients.Client(players[0].connectionId).SendAsync("ChooseBlue", newList);
+        }
+
+        public void CreateDeck()
+        {
+            deck = new Deck();
         }
 
         public Task PassTurn()
