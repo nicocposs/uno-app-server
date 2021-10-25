@@ -58,13 +58,13 @@ namespace UnoLike.Hubs
         {
             CreateDeck();
             int[] vals = { 1, 2, 3, 4, 5, 6, 7 };
-            ChooseBlue(vals);
+            ChooseCardMax("blue",vals);
         }
 
-        public Task ChooseBlue(int[] values)
+        public Task ChooseCardMax(string color, int[] values)
         {
             List<int> newList = new List<int>(values);
-            return Clients.Client(players[0].connectionId).SendAsync("ChooseBlue", newList);
+            return Clients.Client(players[0].connectionId).SendAsync("ChooseCardMax", color, values);
         }
 
         public void CreateDeck()
@@ -94,5 +94,7 @@ namespace UnoLike.Hubs
             }
             return Clients.All.SendAsync("PlayerNameTurn", nextName);
         }
+
+        //Ajouter la fonction du invoke pour réceptionner le max
     }
 }
